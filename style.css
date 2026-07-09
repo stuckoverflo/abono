@@ -94,17 +94,19 @@ h1 {
 }
 .bill thead th.col-item { text-align: left; width: 16%; min-width: 120px; }
 .bill thead th.col-price { width: 104px; min-width: 96px; }
+.bill thead th.col-add { width: 40px; min-width: 36px; }
 .bill thead th.col-na { color: var(--muted); width: 56px; min-width: 48px; }
 .bill thead th.col-ctrl { width: 56px; min-width: 52px; }
 
 .person-head {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
 }
 .person-head input {
-  width: 100%;
+  flex: 1 1 auto;
+  width: auto;
   min-width: 0;
   text-align: center;
   border: 1px solid var(--border);
@@ -113,6 +115,26 @@ h1 {
   font: inherit;
   font-weight: 600;
 }
+.person-head .icon-btn { flex: 0 0 auto; }
+
+/* tab-style "+" to add a person, sits after the last person column */
+.tab-add {
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--border-strong);
+  background: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--muted);
+}
+.tab-add:hover { background: #f0f1f2; color: var(--text); }
+
+/* the add column is a borderless gutter in the body/footer */
+.bill td.cell-add { border: none; background: transparent; }
+.bill tfoot td.col-add { border-top: none; }
+.bill tfoot tr.grand td.col-add { border-top: none; }
 .icon-btn {
   border: none;
   background: transparent;

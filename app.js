@@ -321,6 +321,7 @@ function render() {
       </div>
     </th>`;
   });
+  head += `<th class="col-add"><button type="button" class="tab-add" data-act="add-person" title="Add person">+</button></th>`;
   head += `<th class="col-na">N/A</th>`;
   head += `<th class="col-ctrl"></th>`;
   head += "</tr></thead>";
@@ -350,6 +351,7 @@ function render() {
     });
 
     const allIn = people.length > 0 && people.every((p) => it.shares[p.id] && it.shares[p.id].included);
+    body += `<td class="cell-add"></td>`;
     body += `<td class="cell-na">${fmt(res.na)}</td>`;
     body += `<td class="cell-ctrl">`;
     body += `<input type="checkbox" data-act="all-toggle" data-item="${it.id}" ${allIn ? "checked" : ""} title="Include everyone / no one" />`;
@@ -367,7 +369,7 @@ function render() {
   let sub = `<tr><td class="foot-label sub">Subtotal</td>`;
   sub += `<td class="foot-total">${fmt(c.subtotalTotal)}</td>`;
   people.forEach((p) => (sub += `<td class="foot-num">${fmt(c.subtotals[p.id])}</td>`));
-  sub += `<td class="foot-num">${fmt(c.naTotal)}</td><td></td></tr>`;
+  sub += `<td class="col-add"></td><td class="foot-num">${fmt(c.naTotal)}</td><td></td></tr>`;
   foot.push(sub);
 
   // PWD / Senior discount row: discountable base + who is PWD; shows the % discount only
@@ -387,7 +389,7 @@ function render() {
     pwd += `<td class="${cls.join(" ")}" data-act="pwd-toggle" data-person="${p.id}"
           role="button" tabindex="0" title="Mark as PWD / Senior">${disp}</td>`;
   });
-  pwd += `<td class="foot-num"></td><td></td></tr>`;
+  pwd += `<td class="col-add"></td><td class="foot-num"></td><td></td></tr>`;
   foot.push(pwd);
 
   // Less VAT row: VAT lifted off the PWD's discounted share (shown only when it applies)
@@ -401,7 +403,7 @@ function render() {
       const disp = on ? "&minus;" + fmt(c.vatShare[p.id]) : "&nbsp;";
       vrow += `<td class="${cls.join(" ")}">${disp}</td>`;
     });
-    vrow += `<td class="foot-num"></td><td></td></tr>`;
+    vrow += `<td class="col-add"></td><td class="foot-num"></td><td></td></tr>`;
     foot.push(vrow);
   }
 
@@ -409,21 +411,21 @@ function render() {
   let tax = `<tr><td class="foot-label">+ Tax</td>`;
   tax += `<td class="col-price-cell">${rateCell("tax")}</td>`;
   people.forEach((p) => (tax += `<td class="foot-num">${fmt(c.tax[p.id])}</td>`));
-  tax += `<td class="foot-num">0.00</td><td></td></tr>`;
+  tax += `<td class="col-add"></td><td class="foot-num">0.00</td><td></td></tr>`;
   foot.push(tax);
 
   // Tip
   let tip = `<tr><td class="foot-label">+ Tip</td>`;
   tip += `<td class="col-price-cell">${rateCell("tip")}</td>`;
   people.forEach((p) => (tip += `<td class="foot-num">${fmt(c.tip[p.id])}</td>`));
-  tip += `<td class="foot-num">0.00</td><td></td></tr>`;
+  tip += `<td class="col-add"></td><td class="foot-num">0.00</td><td></td></tr>`;
   foot.push(tip);
 
   // Grand total
   let grand = `<tr class="grand"><td class="foot-label">Grand total</td>`;
   grand += `<td class="foot-total">${fmt(c.grandTotal)}</td>`;
   people.forEach((p) => (grand += `<td class="foot-total">${fmt(c.grand[p.id])}</td>`));
-  grand += `<td class="foot-num">${fmt(c.naTotal)}</td><td></td></tr>`;
+  grand += `<td class="col-add"></td><td class="foot-num">${fmt(c.naTotal)}</td><td></td></tr>`;
   foot.push(grand);
 
   const footer = `<tfoot>${foot.join("")}</tfoot>`;
@@ -594,6 +596,7 @@ tableEl.addEventListener("click", (e) => {
   // click a PWD row cell to mark / unmark that person as PWD / Senior
   if (act === "pwd-toggle") { togglePwd(btn.dataset.person); return; }
 
+  if (act === "add-person") { addPerson(); return; }
   if (act === "del-person") { delPerson(btn.dataset.person); return; }
   if (act === "del-item") { delItem(btn.dataset.item); return; }
   if (act === "tax-mode") { state.tax.mode = state.tax.mode === "percent" ? "amount" : "percent"; render(); return; }
