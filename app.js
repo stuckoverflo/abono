@@ -85,13 +85,13 @@ function seedState() {
   return {
     currency: CURRENCY,
     people: [
-      { id: p1, name: "Alex" },
-      { id: p2, name: "Sam" },
-      { id: p3, name: "Jordan" },
+      { id: p1, name: "Foo" },
+      { id: p2, name: "Bar" },
+      { id: p3, name: "Baz" },
     ],
     items: [
-      mk("Garlic Rice", "705", [p1, p2, p3]),
-      mk("Pistachio Latte", "330", [p1]),
+      mk("Sinigang na Adobo", "705", [p1, p2, p3]),
+      mk("Tinolang Porkchop", "330", [p1]),
     ],
     tax: { mode: "amount", value: "0" },
     tip: { mode: "percent", value: "0" },
