@@ -10,7 +10,7 @@ saved automatically in the browser (localStorage).
 
 ## How to use
 
-- **+ Person** adds a column. The **✕** above a name removes that person.
+- The **+** button after the last person adds a column. The **✕** next to a name removes that person.
 - Type an **item** name and its total price in the `₱` column. A new blank row appears automatically.
 - **Click a person's cell** to toggle them in or out of an item — the cost splits evenly among
   everyone included, with leftover cents balanced so the row adds up exactly
@@ -30,11 +30,10 @@ saved automatically in the browser (localStorage).
   it's split across people in proportion to their subtotal.
 - Discounts: enter a **negative** price (e.g. `-500`).
 
-## Save / share
+## Reset
 
-- **Export** downloads the bill as a JSON file.
-- **Import** loads a previously exported JSON file.
-- **Clear** resets the bill.
+- **Clear** wipes the bill and starts over. Otherwise your bill is saved automatically in the
+  browser (localStorage) and restored on the next visit.
 
 ## Files
 

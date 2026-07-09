@@ -2,7 +2,7 @@
 
 /* ============================================================
    Abono — local itemized-expense splitter
-   No dependencies. State lives in localStorage + JSON export.
+   No dependencies. State is saved locally in the browser (localStorage).
    ============================================================ */
 
 const CURRENCY = "₱"; // ₱ — change here for a different symbol
@@ -607,44 +607,8 @@ tableEl.addEventListener("click", (e) => {
 document.querySelector(".toolbar").addEventListener("click", (e) => {
   const btn = e.target.closest("[data-act]");
   if (!btn) return;
-  const act = btn.dataset.act;
-  if (act === "add-person") addPerson();
-  else if (act === "export") exportJSON();
-  else if (act === "import") document.getElementById("import-file").click();
-  else if (act === "clear") clearAll();
+  if (btn.dataset.act === "clear") clearAll();
 });
-
-document.getElementById("import-file").addEventListener("change", (e) => {
-  const file = e.target.files && e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = () => {
-    try {
-      const data = JSON.parse(reader.result);
-      if (!data || !Array.isArray(data.people) || !Array.isArray(data.items)) {
-        throw new Error("Not an Abono bill.");
-      }
-      state = normalize(data);
-      render();
-    } catch (err) {
-      alert("Could not import file: " + err.message);
-    }
-    e.target.value = ""; // allow re-importing same file
-  };
-  reader.readAsText(file);
-});
-
-function exportJSON() {
-  const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "abono-bill.json";
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-}
 
 function clearAll() {
   if (!confirm("Clear the whole bill and start over?")) return;
