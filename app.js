@@ -7,6 +7,8 @@
 
 const CURRENCY = "₱"; // ₱ — change here for a different symbol
 const STORAGE_KEY = "abono.v1";
+const PWD_DISCOUNT_PCT = 20; // fixed PWD/Senior discount % (PH law: RA 9994 / RA 10754)
+const PWD_VAT_PCT = 12;      // fixed VAT % (PH)
 
 /* ---------- id generator ---------- */
 let _idc = 0;
@@ -226,8 +228,8 @@ function computeAll() {
   // The discount base is entered manually (e.g. the most-expensive order the restaurant
   // discounted, VAT-exclusive — the receipt's DISCOUNTABLE line). VAT-removal + discount are
   // computed from it and the whole deduction is given to the PWD/Senior person(s).
-  const vat = num(state.pwd.vat) / 100;
-  const disc = num(state.pwd.disc) / 100;
+  const vat = PWD_VAT_PCT / 100;
+  const disc = PWD_DISCOUNT_PCT / 100;
   const discountable = num(state.pwd.discountable);
   const r2 = (x) => Math.round(x * 100) / 100;
   const vatRemoved = r2(discountable * vat);   // VAT lifted off the discountable base
@@ -374,13 +376,12 @@ function render() {
 
   // PWD / Senior discount row: discountable base + who is PWD; shows the % discount only
   let pwd = `<tr class="pwd-row"><td class="foot-label">PWD / Senior
-    <span class="pwd-rates">&minus;<input class="rate-mini" data-act="pwd-disc" data-focus="pwd-disc"
-      value="${esc(state.pwd.disc)}" inputmode="decimal" title="Discount %" />%
-      &nbsp;VAT <input class="rate-mini" data-act="pwd-vat" data-focus="pwd-vat"
-      value="${esc(state.pwd.vat)}" inputmode="decimal" title="VAT %" />%</span></td>`;
-  pwd += `<td class="col-price-cell"><input class="num-input" data-act="pwd-discountable"
-      data-focus="pwd-discountable" value="${esc(state.pwd.discountable)}" placeholder="disc."
-      inputmode="decimal" title="Discountable amount (VAT-exclusive) — the receipt's DISCOUNTABLE line" /></td>`;
+    <span class="pwd-rates">&minus;${PWD_DISCOUNT_PCT}% &nbsp;VAT ${PWD_VAT_PCT}%
+      <label class="disc-field">&middot; Discountable ${esc(state.currency)}<input class="rate-mini disc-mini"
+        data-act="pwd-discountable" data-focus="pwd-discountable" value="${esc(state.pwd.discountable)}"
+        placeholder="0" inputmode="decimal"
+        title="Discountable amount (VAT-exclusive) — the receipt's DISCOUNTABLE line" /></label></span></td>`;
+  pwd += `<td class="foot-total pwd-amt">${c.pwdDiscTotal ? "&minus;" + fmt(c.pwdDiscTotal) : fmt(0)}</td>`;
   people.forEach((p) => {
     const on = !!state.pwd.members[p.id];
     const cls = ["pcell", "toggle", "pwd-cell"];
@@ -526,8 +527,6 @@ tableEl.addEventListener("input", (e) => {
     render();
     return;
   }
-  if (act === "pwd-disc") { state.pwd.disc = t.value; render(); return; }
-  if (act === "pwd-vat") { state.pwd.vat = t.value; render(); return; }
   if (act === "pwd-discountable") { state.pwd.discountable = t.value; render(); return; }
 });
 

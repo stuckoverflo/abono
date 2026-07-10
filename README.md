@@ -22,8 +22,8 @@ saved automatically in the browser (localStorage).
     restaurant actually discounted (often the most expensive single order, not necessarily what
     the PWD ordered). Enter the value from the receipt's `DISCOUNTABLE` line (e.g. `449.27`).
   - **Click the PWD/Senior person** to mark them. The 12% VAT is removed and the 20% discount
-    applied to that base (both rates editable inline), and the **entire deduction is given to
-    that person** (if you mark more than one, it splits evenly among them).
+    applied to that base (fixed by PH law), and the **entire deduction is given to that person**
+    (if you mark more than one, it splits evenly among them).
   - The service charge (Tip row) is computed on the VAT-exclusive net, matching PH receipts.
     Item prices are assumed VAT-inclusive.
 - **+ Tax / + Tip**: click the `₱`/`%` button to switch between a flat amount and a percentage;
