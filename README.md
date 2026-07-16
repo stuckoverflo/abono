@@ -1,6 +1,7 @@
 # Abono
 
-A local, standalone itemized-expense splitter (a Splitwise-style bill divider).
+This is just vibe-coded for personal use, not an artisanal, handcrafted code. Zero intention to maintain this except for personal needs.
+
 
 ## Run it
 
