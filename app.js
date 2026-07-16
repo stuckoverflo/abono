@@ -386,9 +386,9 @@ function render() {
     const on = !!state.pwd.members[p.id];
     const cls = ["pcell", "toggle", "pwd-cell"];
     if (on) cls.push("included");
-    const disp = on ? "&minus;" + fmt(c.discShare[p.id]) : "&nbsp;";
+    const disp = on ? "&minus;" + fmt(c.discShare[p.id]) : `<span class="pwd-hint">PWD?</span>`;
     pwd += `<td class="${cls.join(" ")}" data-act="pwd-toggle" data-person="${p.id}"
-          role="button" tabindex="0" title="Mark as PWD / Senior">${disp}</td>`;
+          role="button" tabindex="0" title="Mark this person as PWD / Senior">${disp}</td>`;
   });
   pwd += `<td class="col-add"></td><td class="foot-num"></td><td></td></tr>`;
   foot.push(pwd);

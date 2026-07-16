@@ -287,6 +287,23 @@ td.cell-na {
 }
 .foot-total.pwd-amt { color: var(--danger); }
 td.pwd-cell { color: var(--danger); }
+
+/* faint dashed "PWD?" hint shown in unmarked cells to signal they're clickable */
+.pwd-hint {
+  display: inline-block;
+  padding: 1px 7px;
+  border: 1px dashed var(--border-strong);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--muted);
+  opacity: 0.75;
+}
+td.pwd-cell.toggle:hover .pwd-hint {
+  opacity: 1;
+  color: var(--danger);
+  border-color: var(--danger);
+}
 td.pwd-cell.included { background: #fbecea; box-shadow: inset 0 0 0 1px #f0cfca; }
 td.pwd-cell.toggle:hover { background: #fdf3f1; }
 td.pwd-cell.toggle.included:hover { background: #f6ddd8; }
