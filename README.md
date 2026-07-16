@@ -4,7 +4,9 @@ This is just vibe-coded for personal use, not an artisanal, handcrafted code. Ze
 
 
 ## Run it
+https://stuckoverflo.github.io/abono/
 
+Local: 
 Just open **`index.html`** in any browser — double-click it, or drag it into a browser tab.
 No install, no build, no server, no internet. Everything runs client-side and your bill is
 saved automatically in the browser (localStorage).
