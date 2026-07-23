@@ -602,11 +602,54 @@ tableEl.addEventListener("click", (e) => {
   if (act === "tip-mode") { state.tip.mode = state.tip.mode === "percent" ? "amount" : "percent"; render(); return; }
 });
 
+/* ---------- export (copy per-person totals to clipboard) ---------- */
+function exportText() {
+  const c = computeAll();
+  return state.people
+    .map((p) => `${(p.name || "").trim() || "?"} ${fmt(c.grand[p.id])}`)
+    .join("\n");
+}
+
+function copyText(text) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    return navigator.clipboard.writeText(text).then(() => true, () => legacyCopy(text));
+  }
+  return Promise.resolve(legacyCopy(text));
+}
+
+// execCommand fallback for browsers/contexts without the async clipboard API
+function legacyCopy(text) {
+  const ta = document.createElement("textarea");
+  ta.value = text;
+  ta.setAttribute("readonly", "");
+  ta.style.position = "fixed";
+  ta.style.opacity = "0";
+  document.body.appendChild(ta);
+  ta.select();
+  let ok = false;
+  try { ok = document.execCommand("copy"); } catch (e) { /* ignore */ }
+  document.body.removeChild(ta);
+  return ok;
+}
+
+function flashButton(btn, label) {
+  const orig = btn.textContent;
+  btn.textContent = label;
+  btn.disabled = true;
+  setTimeout(() => {
+    btn.textContent = orig;
+    btn.disabled = false;
+  }, 1200);
+}
+
 /* ---------- toolbar ---------- */
 document.querySelector(".toolbar").addEventListener("click", (e) => {
   const btn = e.target.closest("[data-act]");
   if (!btn) return;
   if (btn.dataset.act === "clear") clearAll();
+  if (btn.dataset.act === "export") {
+    copyText(exportText()).then((ok) => flashButton(btn, ok ? "Copied!" : "Copy failed"));
+  }
 });
 
 function clearAll() {
